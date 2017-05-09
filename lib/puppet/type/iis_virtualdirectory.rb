@@ -3,7 +3,7 @@ Puppet::Type.newtype(:iis_virtualdirectory) do
   ensurable
 
   newparam(:name, namevar: true) do
-    desc 'This is the name of the virtual directory'
+    desc 'This is the name of the virtual directory resource and the default name of the virtual directory itself'
     validate do |value|
       raise("#{value} is not a valid virtual directory name") unless value =~ %r{^[a-zA-Z0-9\-\_\/\s]+$}
     end
@@ -20,6 +20,13 @@ Puppet::Type.newtype(:iis_virtualdirectory) do
     desc 'The site in which this virtual directory exists'
     validate do |value|
       raise("#{site} is not a valid site name") unless value =~ %r{^[a-zA-Z0-9\-\_\/\s]+$}
+    end
+  end
+
+  newproperty(:directory) do
+    desc 'An override value for the virtual directory name in place of the namevar'
+    validate do |value|
+      raise("#{value} is not a valid virtual directory name") unless value =~ %r{^[a-zA-Z0-9\-\_\/\s]+$}
     end
   end
 

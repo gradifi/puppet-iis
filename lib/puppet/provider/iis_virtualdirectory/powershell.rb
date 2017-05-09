@@ -46,9 +46,10 @@ Puppet::Type.type(:iis_virtualdirectory).provide(:powershell, parent: Puppet::Pr
   mk_resource_methods
 
   def create
+    directory_name = @resource[:directory] || @resource[:name]
     inst_cmd = [
       'Import-Module WebAdministration; ',
-      "New-WebVirtualDirectory -Name \"#{@resource[:name]}\"",
+      "New-WebVirtualDirectory -Name \"#{directory_name}\"",
       "-PhysicalPath \"#{@resource[:path]}\"",
       "-Site \"#{@resource[:site]}\"",
       '-Force'
