@@ -2,8 +2,8 @@ require 'puppet'
 require 'puppet/type/iis_site'
 
 describe Puppet::Type.type(:iis_site) do
-  let(:site) do
-    Puppet::Type.type(:iis_site).new(
+  let(:params) do
+    {
       name: 'test_web',
       ensure: 'started',
       path: 'C:/Temp',
@@ -13,11 +13,19 @@ describe Puppet::Type.type(:iis_site) do
       ip: '*',
       port: '81',
       ssl: false
-    )
+    }
+  end
+
+  def site(p = params) 
+    Puppet::Type.type(:iis_site).new(p)
   end
 
   it 'accepts a site name' do
     expect(site[:name]).to eq('test_web')
+  end
+
+  it 'accepts a site name that includes periods' do
+    expect(site(params.merge(name: 'www.mysite.com'))[:name]).to eq('www.mysite.com')
   end
 
   it 'accepts an ensure state' do

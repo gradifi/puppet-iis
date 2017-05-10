@@ -31,6 +31,10 @@ describe Puppet::Type.type(:iis_virtualdirectory) do
     expect(subject[:site]).to eq('Default Web Site')
   end
 
+  it 'accepts a site that includes periods' do
+    expect(subject(params.merge(site: 'www.mysite.com'))[:site]).to eq('www.mysite.com')
+  end
+
   it 'accepts a directory as an override for the name' do
     expect(subject(params.merge(directory: 'my_directory'))[:directory]).to eq('my_directory')
   end
